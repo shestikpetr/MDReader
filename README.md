@@ -1,6 +1,6 @@
 # MD Reader
 
-Легковесный десктопный просмотрщик Markdown-файлов на Kotlin и Compose Multiplatform.
+Легковесное десктопное приложение для просмотра Markdown-файлов написанное на Kotlin с помощью Compose Multiplatform.
 
 ## Возможности
 
