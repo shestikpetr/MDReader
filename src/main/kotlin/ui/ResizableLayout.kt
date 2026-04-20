@@ -1,18 +1,20 @@
 package ui
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import markdown.HeadingEntry
+import settings.AppSettings
 
 private val PANEL_MIN = 0.dp
 private val PANEL_MAX = 600.dp
-private val PANEL_DEFAULT = 150.dp
 
 @Composable
 fun ResizableLayout(
@@ -22,12 +24,16 @@ fun ResizableLayout(
     content: @Composable () -> Unit
 ) {
     val density = LocalDensity.current
-    var leftWidth by remember { mutableStateOf(PANEL_DEFAULT) }
-    var rightWidth by remember { mutableStateOf(PANEL_DEFAULT) }
+    var leftWidth by remember { mutableStateOf(AppSettings.leftPanelWidth.dp) }
+    var rightWidth by remember { mutableStateOf(AppSettings.rightPanelWidth.dp) }
 
-    // When sync is turned on — align right to left
     LaunchedEffect(synced) {
         if (synced) rightWidth = leftWidth
+    }
+    LaunchedEffect(leftWidth, rightWidth) {
+        AppSettings.leftPanelWidth = leftWidth.value.toInt()
+        AppSettings.rightPanelWidth = rightWidth.value.toInt()
+        AppSettings.save()
     }
 
     fun Dp.clamp() = coerceIn(PANEL_MIN, PANEL_MAX)

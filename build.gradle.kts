@@ -28,9 +28,25 @@ compose.desktop {
     application {
         mainClass = "MainKt"
         nativeDistributions {
-            targetFormats(TargetFormat.Msi, TargetFormat.Deb, TargetFormat.Dmg)
+            targetFormats(TargetFormat.Exe, TargetFormat.Msi, TargetFormat.Deb, TargetFormat.Dmg)
             packageName = "MDReader"
             packageVersion = "1.0.0"
+            description = "Markdown Viewer"
+            vendor = "shestikpetr"
+
+            fileAssociation(
+                mimeType = "text/markdown",
+                extension = "md",
+                description = "Markdown File"
+            )
+
+            windows {
+                menuGroup = "MDReader"
+                shortcut = true
+                dirChooser = true
+                perUserInstall = true
+                iconFile.set(project.file("src/main/resources/icon.ico"))
+            }
         }
     }
 }
